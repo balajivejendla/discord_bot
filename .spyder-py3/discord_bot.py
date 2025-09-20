@@ -4,6 +4,7 @@ from discord.ext import commands
 import requests
 from flask import Flask
 from threading import Thread
+import os
 app=Flask('') 
 @app.route('/')
 def home():
@@ -17,7 +18,12 @@ def keep_alive():
     t.start()
 
 # 🔒 SECURITY: Store your bot token in env or config.json
-TOKEN = "MTQxMDk3MTQ2NzMyMzAxOTUwOA.Gtw4pg.dX78IAOHoHq4Hl8U3BsHChGNF4sJ_T0EJaF_Uw"
+TOKEN = os.getenv('DISCORD_BOT_TOKEN')
+if not TOKEN:
+    print("❌ ERROR: DISCORD_BOT_TOKEN environment variable not set!")
+    print("Please set your Discord bot token in the Secrets tab.")
+    exit(1)
+
 
 BASE = "https://vizualabstract.github.io/StarRailStaticAPI/db/en/characters.json"
 API_URL = "https://hsr-api.vercel.app/api/v1/characters"
